@@ -430,7 +430,17 @@ function safe(fn, label){
 if(window.Chart){
   Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif";
   Chart.defaults.color = '#68708a';
-  Chart.defaults.animation = { duration: 550, easing: 'easeOutQuart' };
+  /* Animações desativadas de propósito: neste navegador/ambiente, o loop de
+     animação do Chart.js (baseado em requestAnimationFrame) não avança de
+     forma confiável — os gráficos ficavam com o canvas em branco até um
+     redesenho manual, e o tooltip de hover ficava travado em opacidade ~0
+     (nunca chegava a aparecer). Com animation:false, toda atualização
+     (desenho inicial, hover, tooltip, clique na legenda) é feita de forma
+     síncrona e instantânea, sem depender desse loop — e o dashboard passa a
+     se comportar como um BI tradicional (resposta imediata ao mouse), que é
+     justamente a interação solicitada.  */
+  Chart.defaults.animation = false;
+  Chart.defaults.plugins.tooltip.animation = false;
   Chart.defaults.plugins.tooltip.backgroundColor = '#0d1224';
   Chart.defaults.plugins.tooltip.titleColor = '#ffb37a';
   Chart.defaults.plugins.tooltip.titleFont = { size: 12, weight: '700' };
