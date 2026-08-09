@@ -404,6 +404,13 @@ function safeChart(id, config){
     const el = document.getElementById(id);
     if(!el) throw new Error('Elemento canvas #'+id+' não encontrado');
     charts[id] = new Chart(el, config);
+    /* Força um desenho síncrono imediato. Sem isso, os primeiros gráficos
+       construídos numa mesma renderização podem ficar com o canvas em branco:
+       o Chart.js constrói a instância e as escalas normalmente, mas o primeiro
+       draw() automático (agendado via requestAnimationFrame) às vezes não chega
+       a pintar nenhum pixel nesses gráficos iniciais. Chamar draw() aqui elimina
+       essa dependência de timing. */
+    charts[id].draw();
   } catch(e){
     console.error('[CS Intelligence] Falha ao criar gráfico "'+id+'":', e);
     const canvas = document.getElementById(id);
