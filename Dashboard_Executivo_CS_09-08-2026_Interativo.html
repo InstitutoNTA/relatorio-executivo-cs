@@ -808,7 +808,7 @@ function renderCancelamentosRiscos(){
   document.getElementById('cancelHint').textContent = hint;
   safeChart('chartCancel', {type:'bar', data:{labels:labels, datasets:[
     {label:'Cancelamentos', data:weeks.map(w=>w.cancelados), backgroundColor:'#e03131', hoverBackgroundColor:'#c92a2a'},
-  ]}, options:{responsive:true, maintainAspectRatio:false, scales:{grid:{color:'#eef0f4'}}, plugins:{legend:{display:false}, tooltip:{callbacks:{label:function(ctx){
+  ]}, options:{responsive:true, maintainAspectRatio:false, scales:{x:{grid:{display:false}}, y:{grid:{color:'#eef0f4'}}}, plugins:{legend:{display:false}, tooltip:{callbacks:{label:function(ctx){
     const arr = ctx.dataset.data;
     const d = deltaPair(arr, ctx.dataIndex);
     const lines = ['Cancelamentos: '+fmtNum(ctx.raw)];
